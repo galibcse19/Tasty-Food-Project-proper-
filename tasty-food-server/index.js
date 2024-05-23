@@ -39,17 +39,23 @@ async function run() {
     })
 
     app.get('/food',async(req,res)=>{
-        const cursor= foodCollection.find();
-        const result= await cursor.toArray();
+
+        const page= parseInt(req.query.page);
+        const size= parseInt(req.query.size);
+
+        console.log('pagination query:',page,size);
+        // const cursor= foodCollection.find();
+        // const result= await cursor.toArray();
+        const result= await foodCollection.find().skip(page*size).limit(size).toArray();
         res.send(result);
     })
 
     app.get('/food/:id',async(req,res)=>{
-    const id = req.params.id;
-    const query= {_id: new ObjectId(id)}
-    const result= await foodCollection.findOne(query);
-    res.send(result);
-})
+          const id = req.params.id;
+          const query= {_id: new ObjectId(id)}
+          const result= await foodCollection.findOne(query);
+          res.send(result);
+    })
 
 
     // Send a ping to confirm a successful connection
