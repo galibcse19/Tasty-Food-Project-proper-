@@ -30,12 +30,18 @@ async function run() {
 
 
     const foodCollection = client.db('foodDB').collection('tastyFood');
-
+    const  userCollection = client.db('foodDB').collection('User')
     app.post('/food', async(req,res)=>{
         const newFood=req.body;
         console.log(newFood);
         const result= await foodCollection.insertOne(newFood);
         res.send(result);
+    })
+    app.post('/userData', async(req,res)=>{
+      const user=req.body;
+      console.log(user);
+      const result= await userCollection.insertOne(user);
+      res.send(result);
     })
 
     app.get('/food',async(req,res)=>{
